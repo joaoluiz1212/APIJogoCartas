@@ -1,0 +1,6 @@
+@APIJogoCartas_HostAddress = http://localhost:5133
+
+GET {{APIJogoCartas_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
