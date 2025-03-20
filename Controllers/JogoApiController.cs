@@ -21,11 +21,18 @@ public class JogoApiController : ControllerBase
     [Route("embaralhar-carta")]
     public async Task<IActionResult> EmbaralhareCarta()
     {
-        var response = await _apiClientService.CriarBaralhoAsync();
+        try
+        {
+            var response = await _apiClientService.CriarBaralhoAsync();
 
-        var retornoBaralho = BaralhoMapper.MapearParaBaralhoDTO(response);
+            var retornoBaralho = BaralhoMapper.MapearParaBaralhoDTO(response);
 
-        return Ok(retornoBaralho);
+            return Ok(retornoBaralho);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpPost]
@@ -33,9 +40,32 @@ public class JogoApiController : ControllerBase
     [ResponseType(typeof(RetornoDistribuicaoDeCartasViewModel))]
     public async Task<IActionResult> DistribuirCartasPorJogador([FromBody] EnvioDistribuicaoDeCartasViewModel envioDistribuicaoDeCartas)
     {
-        var retornoDistribuicaoDeCartaPorJogador = await _apiClientService.DistribuirCartasAsync(envioDistribuicaoDeCartas.idBaralho, envioDistribuicaoDeCartas.quantidadeDeJogadores);
+        try
+        {
+            var retornoDistribuicaoDeCartaPorJogador = await _apiClientService.DistribuirCartasAsync(envioDistribuicaoDeCartas.idBaralho, envioDistribuicaoDeCartas.quantidadeDeJogadores);
 
-        return Ok(retornoDistribuicaoDeCartaPorJogador);
+            return Ok(retornoDistribuicaoDeCartaPorJogador);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    [Route("devolver-cartas-ao-baralho")]
+    public async Task<IActionResult> DevolverCartasAoBaralho(string baralhoId)
+    {
+        try
+        {
+            await _apiClientService.DevolverCartasAsync(baralhoId);
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
 
