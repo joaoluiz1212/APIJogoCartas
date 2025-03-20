@@ -1,6 +1,9 @@
-﻿namespace APIJogoCartas.ViewModel;
+﻿using APIJogoBaralho.Moldes.DTO;
 
-public class DevolverCarytasAoBaralhoViewModel
+namespace APIJogoBaralho.ViewModel;
+
+public class RetornoDistribuicaoDeCartasViewModel
 {
-    public string baralhoID { get; set; }   
+    public string NomeJogador { get; set; }
+    public List<CartaDTO> Cartas { get; set; }
 }

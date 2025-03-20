@@ -10,9 +10,9 @@ public class ApiClientService
     private readonly HttpClient _httpClient;
     private const string _baseUrl = "https://deckofcardsapi.com/api/deck/";
 
-    public ApiClientService(HttpClient httpClient)
+    public ApiClientService()
     {
-        _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient)); ;
+        _httpClient = new HttpClient(); 
     }
 
     public async Task<BaralhoResponse> CriarBaralhoAsync()

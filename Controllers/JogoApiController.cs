@@ -14,7 +14,7 @@ public class JogoApiController : ControllerBase
 
     public JogoApiController()
     {
-        _apiClientService = new ApiClientService(new HttpClient());
+        _apiClientService = new ApiClientService();
     }
 
     [HttpGet]
