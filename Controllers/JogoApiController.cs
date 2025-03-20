@@ -25,6 +25,11 @@ public class JogoApiController : ControllerBase
         {
             var response = await _apiClientService.CriarBaralhoAsync();
 
+            if( response == null)
+            {
+                return NotFound("Não houve retorno na requisição.");
+            }
+
             var retornoBaralho = BaralhoMapper.MapearParaBaralhoDTO(response);
 
             return Ok(retornoBaralho);
@@ -42,7 +47,13 @@ public class JogoApiController : ControllerBase
     {
         try
         {
-            var retornoDistribuicaoDeCartaPorJogador = await _apiClientService.DistribuirCartasAsync(envioDistribuicaoDeCartas.idBaralho, envioDistribuicaoDeCartas.quantidadeDeJogadores);
+            var retornoDistribuicaoDeCartaPorJogador = await _apiClientService.DistribuirCartasAsync(baralhoID: envioDistribuicaoDeCartas.idBaralho, 
+               quantidadeDeJogador: envioDistribuicaoDeCartas.quantidadeDeJogadores);
+
+            if (retornoDistribuicaoDeCartaPorJogador == null)
+            {
+                return NotFound("Não foi possível distribuir cartas ao jogadores.");
+            }
 
             return Ok(retornoDistribuicaoDeCartaPorJogador);
         }
@@ -58,7 +69,7 @@ public class JogoApiController : ControllerBase
     {
         try
         {
-            await _apiClientService.DevolverCartasAsync(baralhoId);
+            await _apiClientService.DevolverCartasAsync(baralhoID: baralhoId);
 
             return Ok();
         }
